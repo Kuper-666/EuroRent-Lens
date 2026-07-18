@@ -1,0 +1,62 @@
+name: euro_rent_lens
+description: EuroRent Lens — фотоанализ объявлений об аренде через AI
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.4.1
+  cloud_firestore: ^5.6.1
+  firebase_messaging: ^15.1.6
+
+  # Google Sign-In
+  google_sign_in: ^6.2.2
+
+  # State management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Camera & OCR
+  camera: ^0.11.0+2
+  image_picker: ^1.1.2
+  google_mlkit_text_recognition: ^0.14.0
+
+  # Network
+  dio: ^5.7.0
+  http: ^1.2.2
+
+  # Local storage
+  sqflite: ^2.4.1
+  path: ^1.9.0
+  path_provider: ^2.1.5
+
+  # UI
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+  flutter_markdown: ^0.7.6
+  share_plus: ^10.1.4
+  url_launcher: ^6.3.1
+
+  # Utils
+  intl: ^0.19.0
+  permission_handler: ^11.3.1
+  uuid: ^4.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  riverpod_generator: ^2.6.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
