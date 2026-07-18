@@ -54,7 +54,6 @@ class _LoadingScreenState extends State<LoadingScreen>
       final apiClient = ApiClient();
       final response = await apiClient.analyzeListing(
         text: widget.text,
-        userId: 'app_user',
         lang: widget.lang,
       );
 

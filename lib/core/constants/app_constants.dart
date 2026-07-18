@@ -1,14 +1,9 @@
 class AppConstants {
-  // Telegram Bot API — ТОКЕН ХРАНИТСЯ ТОЛЬКО НА СЕРВЕРЕ (Firebase Cloud Function)
-  // В приложении ТОЛЬКО URL backend-функции
+  // Cloud Function URL — direct Groq API call, no Telegram proxy
   static const String backendFunctionUrl =
-      'https://europe-west1-eurorent-lens.cloudfunctions.net/botProxy';
+      'https://europe-west1-eurorent-lens.cloudfunctions.net';
 
-  // Supabase (для связи Google ID ↔ Telegram user ID)
-  static const String supabaseUrl = 'https://bfpvanfudhtgqdhxpkyr.supabase.co';
-  // anon key хранится в firebase_remote_config или .env, НЕ в коде
-
-  // Groq API — ТОКЕН НЕ В КОДЕ, через backend
+  // Groq API — ТОКЕН НЕ В КОДЕ, через Cloud Function
   static const String groqModel = 'llama-3.3-70b-versatile';
 
   // OCR

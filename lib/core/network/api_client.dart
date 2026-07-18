@@ -1,8 +1,11 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import '../constants/app_constants.dart';
 
 class ApiClient {
   late final Dio _dio;
+  String? _cachedUserId;
 
   ApiClient() {
     _dio = Dio(BaseOptions(
@@ -19,53 +22,67 @@ class ApiClient {
     ));
   }
 
-  /// Отправить текст объявления на анализ
+  /// Get unique device-specific user ID
+  Future<String> getUserId() async {
+    if (_cachedUserId != null) return _cachedUserId!;
+
+    try {
+      final deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid) {
+        final androidInfo = await deviceInfo.androidInfo;
+        _cachedUserId = 'android_${androidInfo.id}';
+      } else if (Platform.isIOS) {
+        final iosInfo = await deviceInfo.iosInfo;
+        _cachedUserId = 'ios_${iosInfo.identifierForVendor}';
+      } else {
+        _cachedUserId = 'web_${DateTime.now().millisecondsSinceEpoch}';
+      }
+    } catch (e) {
+      _cachedUserId = 'unknown_${DateTime.now().millisecondsSinceEpoch}';
+    }
+
+    return _cachedUserId!;
+  }
+
+  /// Send listing text for analysis
   Future<AnalysisResponse> analyzeListing({
     required String text,
-    required String userId,
+    String? userId,
     required String lang,
   }) async {
-    final response = await _dio.post('/analyze', data: {
+    final uid = userId ?? await getUserId();
+    final response = await _dio.post('/botProxy', data: {
       'text': text,
-      'user_id': userId,
+      'user_id': uid,
       'lang': lang,
     });
     return AnalysisResponse.fromJson(response.data);
   }
 
-  /// Отправить фото (Base64) на анализ
+  /// Send photo (Base64) for analysis
   Future<AnalysisResponse> analyzePhoto({
     required String imageBase64,
-    required String userId,
+    String? userId,
     required String lang,
   }) async {
-    final response = await _dio.post('/analyze-photo', data: {
+    final uid = userId ?? await getUserId();
+    final response = await _dio.post('/analyzePhoto', data: {
       'image': imageBase64,
-      'user_id': userId,
+      'user_id': uid,
       'lang': lang,
     });
     return AnalysisResponse.fromJson(response.data);
   }
 
-  /// Привязать Google ID к Telegram user ID
+  /// Link Google account to user ID
   Future<void> linkGoogleAccount({
     required String googleUserId,
     required String email,
   }) async {
-    await _dio.post('/link-account', data: {
+    await _dio.post('/linkAccount', data: {
       'google_user_id': googleUserId,
       'email': email,
     });
-  }
-
-  /// Получить историю анализов
-  Future<List<AnalysisResponse>> getHistory(String userId) async {
-    final response = await _dio.get('/history', queryParameters: {
-      'user_id': userId,
-    });
-    return (response.data as List)
-        .map((e) => AnalysisResponse.fromJson(e))
-        .toList();
   }
 }
 

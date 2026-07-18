@@ -7,11 +7,13 @@ build/
 
 # Android
 android/.gradle/
+android/.kotlin/
 android/app/debug/
 android/app/profile/
 android/app/release/
 android/local.properties
 android/key.properties
+android/replay_pid*.log
 *.jks
 *.keystore
 

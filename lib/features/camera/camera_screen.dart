@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../data/services/ocr_service.dart';
 import '../analysis/analysis_screen.dart';
 
 // OCR доступен только на мобильных платформах
@@ -110,8 +112,15 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   }
 
   Future<String> _callOcrService(String imagePath) async {
-    // Динамический импорт для избежания ошибок компиляции на web
-    return '';
+    if (kIsWeb) return '';
+    try {
+      final ocrService = OcrService();
+      final result = await ocrService.recognizeText(File(imagePath));
+      ocrService.dispose();
+      return result.fullText;
+    } catch (e) {
+      return '';
+    }
   }
 
   void _showManualInput() {
