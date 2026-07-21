@@ -4,6 +4,7 @@ import * as admin from "firebase-admin";
 admin.initializeApp();
 
 const GROQ_API_KEY = functions.config().groq.api_key;
+const MOBILE_API_KEY = functions.config().mobile?.api_key || "";
 const GROQ_API = "https://api.groq.com/openai/v1/chat/completions";
 const GROQ_MODEL = "llama-3.3-70b-versatile";
 
@@ -30,6 +31,15 @@ export const botProxy = functions.https.onRequest(async (req, res) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
+  }
+
+  // Verify API key from X-Api-Key header
+  if (MOBILE_API_KEY) {
+    const apiKey = req.headers["x-api-key"] || "";
+    if (apiKey !== MOBILE_API_KEY) {
+      res.status(401).json({ error: "Invalid or missing API key" });
+      return;
+    }
   }
 
   const { text, user_id, lang } = req.body;
