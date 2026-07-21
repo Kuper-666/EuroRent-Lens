@@ -1,17 +1,13 @@
 class AppConstants {
-  // Cloud Function URL — direct Groq API call, no Telegram proxy
-  static const String backendFunctionUrl =
-      'https://europe-west1-eurorent-lens.cloudfunctions.net';
-
-  // Groq API — ТОКЕН НЕ В КОДЕ, через Cloud Function
+  // Groq API — ключ хранится в Firebase Remote Config (groq_api_key)
+  static const String groqApiUrl = 'https://api.groq.com/openai/v1/chat/completions';
   static const String groqModel = 'llama-3.3-70b-versatile';
+
+  // Remote Config parameter names
+  static const String rcGroqApiKey = 'groq_api_key';
 
   // OCR
   static const double ocrConfidenceThreshold = 0.7;
-
-  // Polling interval for bot responses
-  static const Duration pollingInterval = Duration(seconds: 5);
-  static const Duration maxWaitForResponse = Duration(minutes: 2);
 
   // Supported languages
   static const Map<String, String> supportedLanguages = {
