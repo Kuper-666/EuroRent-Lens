@@ -174,7 +174,7 @@ class VipScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      'Для оплаты откройте бот @eurorent_bot в Telegram\n'
+                      'Для оплаты откройте бот @expat_rent_bot в Telegram\n'
                       'и используйте команду /pay_stars_vip',
                     ),
                     duration: Duration(seconds: 4),
@@ -203,7 +203,7 @@ class VipScreen extends StatelessWidget {
 
           // Note
           Text(
-            'Оплата через Telegram Stars в боте @eurorent_bot.\n'
+            'Оплата через Telegram Stars в боте @expat_rent_bot.\n'
             'После оплаты отправьте критерии поиска боту.',
             textAlign: TextAlign.center,
             style: TextStyle(
