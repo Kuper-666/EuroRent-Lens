@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'firebase_options.dart';
 import 'core/theme/app_theme.dart';
+import 'core/services/update_checker.dart';
 import 'features/auth/login_screen.dart';
 import 'features/auth/auth_provider.dart';
 import 'main_shell.dart';
@@ -22,16 +23,33 @@ void main() async {
   ));
   await remoteConfig.setDefaults({
     'groq_api_key': '',
+    'latest_version': '',
+    'update_url': '',
+    'update_message': '',
   });
 
   runApp(const ProviderScope(child: EuroRentLensApp()));
 }
 
-class EuroRentLensApp extends ConsumerWidget {
+class EuroRentLensApp extends ConsumerStatefulWidget {
   const EuroRentLensApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EuroRentLensApp> createState() => _EuroRentLensAppState();
+}
+
+class _EuroRentLensAppState extends ConsumerState<EuroRentLensApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Check for updates after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UpdateChecker.checkForUpdate(context);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
 
     return MaterialApp(
