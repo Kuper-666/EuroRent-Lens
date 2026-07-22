@@ -42,10 +42,16 @@ class _EuroRentLensAppState extends ConsumerState<EuroRentLensApp> {
   @override
   void initState() {
     super.initState();
-    // Check for updates after first frame
+    // Start periodic update checks
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      UpdateChecker.checkForUpdate(context);
+      UpdateChecker.startPeriodicCheck(context);
     });
+  }
+
+  @override
+  void dispose() {
+    UpdateChecker.stopPeriodicCheck();
+    super.dispose();
   }
 
   @override
