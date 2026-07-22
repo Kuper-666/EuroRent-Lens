@@ -33,6 +33,10 @@ dependencies:
   dio: ^5.7.0
   http: ^1.2.2
 
+  # PDF generation
+  pdf: ^3.11.2
+  printing: ^5.13.4
+
   # Local storage
   sqflite: ^2.4.1
   path: ^1.9.0
