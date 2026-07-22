@@ -3,6 +3,7 @@ import 'features/dashboard/dashboard_screen.dart';
 import 'features/pdf/pdf_screen.dart';
 import 'features/vip/vip_screen.dart';
 import 'features/trends/trends_screen.dart';
+import 'features/profile/profile_screen.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -19,6 +20,7 @@ class _MainShellState extends State<MainShell> {
     const PdfScreen(),
     const VipScreen(),
     const TrendsScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -54,6 +56,11 @@ class _MainShellState extends State<MainShell> {
             icon: Icon(Icons.trending_up_outlined),
             selectedIcon: Icon(Icons.trending_up, color: Color(0xFF2196F3)),
             label: 'Тренды\nцен',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outlined),
+            selectedIcon: Icon(Icons.person, color: Color(0xFF2196F3)),
+            label: 'Профиль',
           ),
         ],
       ),
