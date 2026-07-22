@@ -10,10 +10,6 @@ import 'features/auth/login_screen.dart';
 import 'features/auth/auth_provider.dart';
 import 'main_shell.dart';
 
-final themeProvider = ChangeNotifierProvider<ThemeProvider>((ref) {
-  return ThemeProvider();
-});
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

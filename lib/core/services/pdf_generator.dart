@@ -117,7 +117,7 @@ class PdfGenerator {
           _infoRow('Beginn / Start Date', startDate),
           if (endDate != null && endDate.isNotEmpty)
             _infoRow('Ende / End Date', endDate),
-          else
+          if (endDate == null || endDate.isEmpty)
             _infoRow('Laufzeit / Duration', 'Unbefristet / Indefinite'),
           pw.SizedBox(height: 24),
 
@@ -233,7 +233,13 @@ class PdfGenerator {
                 children: [
                   pw.Text('Stempel / Stamp'),
                   pw.SizedBox(height: 30),
-                  pw.Container(width: 100, height: 100, border: pw.Border.all(color: PdfColors.grey400)),
+                  pw.Container(
+                    width: 100,
+                    height: 100,
+                    decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.grey400),
+                    ),
+                  ),
                 ],
               ),
             ],

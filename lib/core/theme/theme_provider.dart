@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
@@ -39,3 +40,7 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 }
+
+final themeProvider = ChangeNotifierProvider<ThemeProvider>((ref) {
+  return ThemeProvider();
+});
