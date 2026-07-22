@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../core/theme/theme_provider.dart';
 import '../../features/auth/auth_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -226,20 +227,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 // App settings
                 _SectionHeader(title: 'Настройки'),
 
+                // Theme toggle
                 Card(
                   child: SwitchListTile(
                     secondary: Icon(
-                      Theme.of(context).brightness == Brightness.dark
+                      ref.watch(themeProvider).themeMode == ThemeMode.dark
                           ? Icons.dark_mode
                           : Icons.light_mode,
                     ),
                     title: const Text('Тёмная тема'),
-                    subtitle: const Text('Автоматически по системе'),
-                    value: Theme.of(context).brightness == Brightness.dark,
+                    subtitle: Text(
+                      ref.watch(themeProvider).themeMode == ThemeMode.system
+                          ? 'Следовать за системой'
+                          : ref.watch(themeProvider).themeMode == ThemeMode.dark
+                              ? 'Включена'
+                              : 'Выключена',
+                    ),
+                    value: ref.watch(themeProvider).themeMode == ThemeMode.dark,
                     onChanged: (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Тема переключается автоматически')),
-                      );
+                      ref.read(themeProvider.notifier).toggleTheme();
                     },
                   ),
                 ),

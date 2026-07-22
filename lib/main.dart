@@ -4,10 +4,15 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'firebase_options.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_provider.dart';
 import 'core/services/update_checker.dart';
 import 'features/auth/login_screen.dart';
 import 'features/auth/auth_provider.dart';
 import 'main_shell.dart';
+
+final themeProvider = ChangeNotifierProvider<ThemeProvider>((ref) {
+  return ThemeProvider();
+});
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +47,6 @@ class _EuroRentLensAppState extends ConsumerState<EuroRentLensApp> {
   @override
   void initState() {
     super.initState();
-    // Start periodic update checks
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateChecker.startPeriodicCheck(context);
     });
@@ -57,13 +61,14 @@ class _EuroRentLensAppState extends ConsumerState<EuroRentLensApp> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    final theme = ref.watch(themeProvider);
 
     return MaterialApp(
       title: 'EuroRent Lens',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
+      themeMode: theme.themeMode,
       home: authState.isAuthenticated
           ? const MainShell()
           : const LoginScreen(),
